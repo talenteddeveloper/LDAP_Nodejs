@@ -11,7 +11,9 @@ function authenticateDN(username, password){
         url: 'ldap://127.0.0.1:10389'
     });
     var opts = {
-        filter: '(objectClass=*)',
+        //  filter: '(objectClass=*)',  //simple search
+        //  filter: '(&(uid=2)(sn=John))',// and search
+        filter: '(|(uid=2)(sn=John)(cn=Smith))', // or search
         scope: 'sub',
         attributes: ['sn']
     };
