@@ -18,7 +18,9 @@ function authenticateDN(username, password){
         }else {
             console.log("Success");
             //searchUser();
-            addUser();
+            //addUser();
+            deleteUser();
+
         }
     });
 }
@@ -75,5 +77,16 @@ function addUser()
     });
 }
 
-
+function deleteUser()
+{
+    client.del('cn=foo1,ou=users,ou=system', function(err) {
+        if(err)
+        {
+            console.log("err in delete new user "+err);
+        }else
+        {
+            console.log("deleted user")
+        }
+    });
+}
 authenticateDN("uid=admin,ou=system","secret")
