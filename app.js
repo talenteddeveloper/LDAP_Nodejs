@@ -5,17 +5,22 @@ var ldap = require('ldapjs');
 app.listen(3000, function () {
     console.log("server started")
 })
+
+/*update the url according to your ldap address*/
 var client = ldap.createClient({
     url: 'ldap://127.0.0.1:10389'
 });
+
+/*use this to create connection*/
 function authenticateDN(username, password){
 
-
+    /*bind use for authentication*/
     client.bind(username, password, function(err) {
         if(err)
         {
             console.log("Error in new connetion "+err)
         }else {
+            /*if connection is success then go for any operation*/
             console.log("Success");
             //searchUser();
             //addUser();
@@ -27,6 +32,7 @@ function authenticateDN(username, password){
     });
 }
 
+/*use this to search user, add your condition inside filter*/
 function searchUser()
 {
     var opts = {
@@ -36,6 +42,7 @@ function searchUser()
         scope: 'sub',
         attributes: ['sn']
     };
+
     client.search('ou=users,ou=system', opts, function(err, res) {
         if(err)
         {
@@ -54,16 +61,13 @@ function searchUser()
                 console.log('status: ' + result.status);
             });
         }
-
-
     });
-
 }
 
+/*use this to add user*/
 function addUser()
 {
     var entry = {
-
         sn: 'bar',
         email: ['foo@bar.com', 'foo1@bar.com'],
         objectclass: 'inetOrgPerson'
@@ -79,6 +83,7 @@ function addUser()
     });
 }
 
+/*use this to delete user*/
 function deleteUser()
 {
     client.del('cn=foo1,ou=users,ou=system', function(err) {
@@ -92,6 +97,7 @@ function deleteUser()
     });
 }
 
+/*use this to add user to group*/
 function addUserToGroup(groupname)
 {
     var change = new ldap.Change({
@@ -112,9 +118,9 @@ function addUserToGroup(groupname)
     });
 }
 
+/*use this to delete user from group*/
 function deleteUserFromGroup(groupname)
 {
-
     var change = new ldap.Change({
         operation: 'delete',
         modification: {
@@ -133,4 +139,5 @@ function deleteUserFromGroup(groupname)
     });
 }
 
+/*create authentication*/
 authenticateDN("uid=admin,ou=system","secret")
