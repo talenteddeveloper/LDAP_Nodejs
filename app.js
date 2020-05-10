@@ -19,7 +19,8 @@ function authenticateDN(username, password){
             console.log("Success");
             //searchUser();
             //addUser();
-            deleteUser();
+            //deleteUser();
+            addUserToGroup('cn=Administrators,ou=groups,ou=system');
 
         }
     });
@@ -89,4 +90,25 @@ function deleteUser()
         }
     });
 }
+
+function addUserToGroup(groupname)
+{
+    var change = new ldap.Change({
+        operation: 'add',
+        modification: {
+            uniqueMember: 'cn=jill,ou=users,ou=system'
+        }
+    });
+
+    client.modify(groupname, change, function(err) {
+        if(err)
+        {
+            console.log("err in add user in a group "+err);
+        }else
+        {
+            console.log("added user in a group")
+        }
+    });
+}
+
 authenticateDN("uid=admin,ou=system","secret")
