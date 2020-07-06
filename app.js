@@ -26,7 +26,8 @@ function authenticateDN(username, password){
             //addUser();
             //deleteUser();
             //addUserToGroup('cn=Administrators,ou=groups,ou=system');
-            deleteUserFromGroup('cn=Administrators,ou=groups,ou=system');
+            //deleteUserFromGroup('cn=Administrators,ou=groups,ou=system');
+            updateUser('cn=test,ou=users,ou=system');
 
         }
     });
@@ -135,6 +136,27 @@ function deleteUserFromGroup(groupname)
         }else
         {
             console.log("deleted  user from a group")
+        }
+    });
+}
+
+function updateUser(dn)
+{
+    var change = new ldap.Change({
+        operation: 'add',  //use add to add new attribute
+        //operation: 'replace', // use replace to update the existing attribute
+        modification: {
+            displayName: '657'
+        }
+    });
+
+    client.modify(dn, change, function(err) {
+        if(err)
+        {
+            console.log("err in update user "+err);
+        }else
+        {
+            console.log("add update user");
         }
     });
 }
