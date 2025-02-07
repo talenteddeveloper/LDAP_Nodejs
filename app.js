@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var ldap = require('ldapjs');
 
+/* LDAP in node js: https://www.youtube.com/playlist?list=PLyzY2l387AlMnTFOvG0u0Vzl_eH6L_48Z */
 app.listen(3000, function () {
     console.log("server started")
 })
